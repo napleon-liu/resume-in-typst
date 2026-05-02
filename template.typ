@@ -8,7 +8,7 @@
 
 #let faAngleRight = icon("static/icons/angle-right.svg", size: 0.68em)
 
-#let time-col = 15%
+#let time-col = 19%
 #let col-gap = 1.1em
 #let body-leading = 0.6em
 #let text-gap = 0.6em
