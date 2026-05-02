@@ -1,139 +1,165 @@
 # Resume in Typst
 
-一个简洁，严肃的typst简历模板，支持中英文。
+一个简洁、严肃的 Typst 简历模板，支持中文和英文两套示例。
 
-样式上, 参考了 [liweitianux/resume](https://github.com/liweitianux/resume) 与 [uniquecv](https://github.com/dyinnz/uniquecv). 同时也参考了一部分 [uniquecv-typst](https://github.com/gaoachao/uniquecv-typst) 的写法.
+## 文件说明
 
-语法上, 基于以下 Typst 的设计原则编写 (简洁一致与组合原则):
+- `template.typ`：通用简历样式模板
+- `resume.typ`：中文简历示例
+- `resume-en.typ`：英文简历示例
+- `static/icons/`：简历中使用的图标资源
+- `resume.pdf`：中文简历导出结果
+- `resume-en.pdf`：英文简历导出结果
 
-> - **Simplicity through Consistency:** If you know how to do one thing in Typst, you should be able to transfer that knowledge to other things. If there are multiple ways to do the same thing, one of them should be at a different level of abstraction than the other. E.g. it's okay that `= Introduction` and `#heading[Introduction]` do the same thing because the former is just syntax sugar for the latter.
-> - **Power through Composability:** There are two ways to make something flexible: Have a knob for everything or have a few knobs that you can combine in many ways. Typst is designed with the second way in mind. We provide systems that you can compose in ways we've never even thought of. TeX is also in the second category, but it's a bit low-level and therefore people use LaTeX instead. But there, we don't really have that much composability. Instead, there's a package for everything (\usepackage{knob}).
+## 安装 Typst
 
+macOS：
 
-## 使用
+```bash
+brew install typst
+```
 
-### 在线编辑
+Arch Linux：
 
-可以使用 Typst 的 Web App,
+```bash
+pacman -S typst
+```
 
-模板链接: https://typst.app/project/rw1SLr0IIZZnCrkrsypRQF
+Windows / 其他平台可参考 Typst 官方安装文档：<https://github.com/typst/typst>
 
+## 编译
 
-### 本地编辑
+生成中文 PDF：
 
-- 安装 Typst:
-    - macOS: `brew install`
-    - Arch Linux: `pacman -S typst`
-    - Windows: 基于 Rust 包管理器安装 `cargo install --git https://github.com/typst/typst`
-- 克隆本仓库: `git clone https://github.com/OrangeX4/Chinese-Resume-in-Typst.git`
-- 编译: `typst compile resume.typ`
-- VS Code 编辑: 安装 `Typst LSP` 插件后即可编辑
+```bash
+typst compile resume.typ resume.pdf
+```
 
+生成英文 PDF：
 
-## 效果
+```bash
+typst compile resume-en.typ resume-en.pdf
+```
 
-包含照片:
+生成中文 PNG：
 
-![](resume-with-photograph.jpg)
+```bash
+typst compile resume.typ resume.png
+```
 
-不包含照片:
+生成英文 PNG：
 
-![](resume-without-photograph.jpg)
+```bash
+typst compile resume-en.typ resume-en.png
+```
 
+## 效果预览
 
-## 示例
+中文模板：
 
-你可以使用 **简洁** 与 **组合式** 的语法出美观的效果.
+![](resume.png)
+
+英文模板：
+
+![](resume-en.png)
+
+## 使用方式
+
+修改 `resume.typ` 或 `resume-en.typ` 中的个人信息、教育背景、实习经历、科研经历、开源经历和专业技能即可。
+
+头部信息示例：
 
 ```typst
-// 设置简历选项与头部
 #show: resume.with(
-  // 字体基准大小
   size: 10pt,
-  // 标题颜色
-  themeColor: themeColor,
-  // 控制纸张的边距
-  top: 1.5cm,
-  bottom: 2cm,
-  left: 2cm,
-  right: 2cm,
-  // 如果不需要头像，则将下面的参数注释或删除
-  photograph: "profile.jpg",
-  photographWidth: 10em,
-  gutterWidth: 2em,
+  themeColor: black,
 )[
-
-= 方橙
-
-#info(
-  color: themeColor,
-  (
-    // 其实 icon 也可以直接填字符串, 如 "fa-phone.svg" 
-    icon: faPhone,
-    content: "(+86) 155-5555-5555"
-  ),
-  (
-    icon: faBuildingColumns,
-    content: "南京大学",
-  ),
-  (
-    icon: faGraduationCap,
-    content: "人工智能",
-  ),
-  (
-    icon: faEnvelope,
-    content: "orangex4@qq.com",
-    link: "mailto:orangex4@qq.com"
-  ),
-  (
-    icon: faGithub,
-    content: "github.com/orangex4",
-    link: "https://github.com/orangex4",
-  ),
-)
-
-#h(2em)  // 手动顶行, 2em 代表两个字的宽度
-我是 OrangeX4，你也可以叫我 *一只方橙* 或 *方橙*。
-现在是南京大学人工智能学院 2020 级本科生，正深陷于学习数学、编程和英语的无边苦海中。
-你问为什么我的名字那么奇怪？ 大概是我喜欢吃橘子和橙子，又谐音方程，还有和我的名字谐音的缘故吧。
-喜欢一切新奇的东西，兴趣十分广泛。
-
+  #info(
+    color: black,
+    name: "候选人姓名",
+    phone: "138-0000-0000",
+    email: "candidate@example.com",
+    github: "github.com/username",
+    location: "目标城市",
+    target_role: "目标岗位 / 方向",
+    target_city: "目标城市",
+  )
 ]
 ```
 
-以及每一个块
+英文模板需要设置 `language: "en"`：
 
 ```typst
-== #faGraduationCap 教育背景
-
-#sidebar(withLine: true, sideWidth: 12%)[
-  2023.05
-  
-  2020.09
-][
-  *南京大学* · 人工智能学院 · 人工智能专业
-  
-  GPA: 4.48 / 5 · Rank: 15%
+#show: resume.with(
+  size: 10pt,
+  themeColor: black,
+  language: "en",
+)[
+  #info(
+    color: black,
+    name: "Candidate Name",
+    phone: "138-0000-0000",
+    email: "candidate@example.com",
+    github: "github.com/username",
+    location: "Target City",
+    target_role: "Target Role / Direction",
+    target_city: "Target City",
+    language: "en",
+  )
 ]
 ```
 
+## 常用块
+
+教育经历：
+
 ```typst
-== #faCode 项目经历
-
-#item(
-  link(
-    "https://github.com/OrangeX4/Latex-Sympy-Calculator",
-    [ *Latex Sympy Calculator* ]
-  ),
-  [ *个人项目* ],
-  date[ 2021 年 02 月 – 2021 年 04 月 ]
+#education(
+  "20XX.09 - 20XX.06",
+  "某某大学",
+  "计算机科学与技术",
+  align(right)[硕士],
 )
-
-#tech[ NodeJS, Python, VS Code ]
-
-一个用于在 VS Code 中使用 LaTeX 数学公式进行「科学计算」的插件
-
-- 使用 ANTLR 将 LaTeX 语句编译为 Sympy 语句
-- 通过 Flask 搭建本地 HTTP 服务器与 VS Code 插件进行通信
-- 可以进行多种类型的科学计算，如积分求导、矩阵计算、无穷级数计算等
 ```
+
+经历条目：
+
+```typst
+#item([20XX.XX - 20XX.XX], [某科技公司 - 基础架构团队], align(right)[后端 / Infra])
+负责某核心系统的研发与性能优化。
+
++ 设计并落地某模块的重构方案，提升系统可维护性和扩展性。
+```
+
+科研经历：
+
+```typst
+#research([20XX.XX], [论文标题 / 课题标题], align(right)[会议 / 期刊｜作者位次])
+围绕系统、算法或应用方向开展研究。
+```
+
+## 模板参数
+
+可在 `template.typ` 顶部调整版式：
+
+```typst
+#let time-col = 19%
+#let col-gap = 1.1em
+#let body-leading = 0.6em
+#let text-gap = 0.6em
+#let item-gap = 1em
+```
+
+- `time-col`：左侧时间列宽度
+- `col-gap`：列间距
+- `body-leading`：段落内部行距
+- `text-gap`：段落间距
+- `item-gap`：条目之间的间距
+
+## 致谢
+
+样式参考了以下项目：
+
+- [liweitianux/resume](https://github.com/liweitianux/resume)
+- [uniquecv](https://github.com/dyinnz/uniquecv)
+- [uniquecv-typst](https://github.com/gaoachao/uniquecv-typst)
