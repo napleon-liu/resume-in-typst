@@ -1,13 +1,19 @@
-
 // 图标
-#let icon(path) = box(
-  baseline: 0.125em,
-  height: 0.8em,
-  width: 0.8em,
-  align(center,image(path))
+#let icon(path, size: 0.78em) = box(
+  baseline: 0.1em,
+  height: size,
+  width: size,
+  align(center, image(path, width: size, height: size)),
 )
 
-#let faAngleRight = icon("fa-angle-right.svg")
+#let faAngleRight = icon("static/icons/angle-right.svg", size: 0.68em)
+
+#let time-col = 15%
+#let col-gap = 1.1em
+#let body-leading = 0.6em
+#let text-gap = 0.6em
+#let item-gap = 1em
+#let muted = rgb(64, 64, 64)
 
 // 个人信息
 #let info(
@@ -15,119 +21,214 @@
   name: "",
   phone: "",
   email: "",
-  gender: "",
-  location:"",
-  identity:"",
-  infos:(),
-) = { 
+  location: "",
+  photograph: "",
+  github: "",
+  target_role: "",
+  target_city: "",
+  language: "zh",
+) = {
   set text(fill: color)
-  //姓名 电话 邮箱
-  show par: set block(spacing: 1em)
-  [
-    #set align(center)
+  let base-label = if language == "en" { "Base: " } else { "base地: " }
+  let target-city-label = if language == "en" { "Target City: " } else { "意向城市：" }
+  let target-role-label = if language == "en" { "Target Role: " } else { "求职方向:" }
 
-    #text(fill: color,size:2em,name)
-
-    #icon("fa-phone.svg") #phone | #icon("fa-envelope.svg") #email
-
-    #gender | #location | #identity
+  if photograph == "" [
+    #grid(
+      columns: (auto, 1fr),
+      column-gutter: 1.1em,
+      align: (left, horizon),
+      text(fill: color, size: 1.62em, weight: "bold", name),
+      stack(
+        dir: ttb,
+        spacing: 0.24em,
+        text(size: 0.82em)[
+          #icon("static/icons/phone.svg") #h(0.18em) #phone
+          #h(0.56em) | #h(0.56em)
+          #icon("static/icons/envelope.svg") #h(0.18em) #email
+          #h(0.56em) | #h(0.56em)
+          #icon("static/icons/github.svg") #h(0.18em) #github
+        ],
+        text(size: 0.82em)[#base-label#location | #target-city-label#target_city | #target-role-label#target_role],
+      ),
+    )
+  ] else [
+    #grid(
+      columns: (1fr, auto),
+      column-gutter: 1.2em,
+      align: (left, center),
+      stack(
+        dir: ttb,
+        spacing: 0.16em,
+        text(fill: color, size: 1.58em, weight: "bold", name),
+        text(size: 0.82em)[
+          #icon("static/icons/phone.svg") #h(0.18em) #phone
+          #h(0.48em) | #h(0.48em)
+          #icon("static/icons/envelope.svg") #h(0.18em) #email
+        ],
+        text(size: 0.82em)[#icon("static/icons/github.svg") #h(0.18em) #github],
+        text(size: 0.82em)[#location #h(0.7em) | #h(0.7em) #target-city-label#target_city],
+        text(size: 0.82em)[#target-role-label#target_role],
+      ),
+      box(
+        align(center + horizon, photograph),
+      ),
+    )
   ]
-
 }
-
 
 // 主体
 #let resume(
   size: 10pt,
-  themeColor: rgb(38, 38, 125),
+  themeColor: black,
   photograph: "",
-  logo:"",
+  logo: "",
+  language: "zh",
   infos,
-  body
+  body,
 ) = {
   // 页边距设定
-  set page( margin: (
-    top: 1cm,
-    bottom: 1cm,
-    left: 1.5cm,
-    right: 1.5cm,
+  set page(margin: (
+    top: 1.0cm,
+    bottom: 1.0cm,
+    left: 1.45cm,
+    right: 1.45cm,
   ))
-  
+
   // 基础字体设定
-  set text(size: size, lang: "zh", font: "Kaiti SC")
+  set text(
+    size: size,
+    lang: language,
+    font: if language == "en" { ("Times New Roman", "Songti SC") } else { ("Songti SC", "Times New Roman") },
+  )
+  set par(spacing: text-gap)
 
   // 标题
-  show heading: set text(themeColor, 1.1em)
+  show heading: set text(
+    fill: themeColor,
+    size: 1.06em,
+    weight: "semibold",
+  )
 
   show heading: set block(
-    stroke: (bottom: 1pt + themeColor),
-    // inset: 3pt,
-    outset: 3pt,
+    above: 0.82em,
+    below: 0.5em,
+    stroke: (bottom: 0.36pt + themeColor),
+    outset: (bottom: 2pt),
     width: 100%,
   )
-  
-  // 更改 bullet list 的图标
+
+  // 列表样式
   set list(
-    indent: 1em, 
-    body-indent: 0.2em, 
-    marker: faAngleRight
+    indent: 1em,
+    body-indent: 0.22em,
+    marker: faAngleRight,
+  )
+
+  set enum(
+    indent: 1.05em,
+    body-indent: 0.38em,
   )
 
   // 主体设定
-  set par(justify: true)
-  
-  
-  // 首部与照片
-  grid(
-    columns: (10%,70%,15%),
-    logo,
-    infos,
-    photograph
-  )
-  show par: set block(spacing: 0.65em)
+  set par(justify: false, leading: body-leading)
+
+  // 首部
+  if logo == "" [
+    #infos
+  ] else [
+    #grid(
+      columns: (auto, 1fr),
+      gutter: 0.8em,
+      align: (left, center),
+      logo,
+      infos,
+    )
+  ]
+
+  v(0.68em)
   body
 }
 
 #let sidebar(..contents) = grid(
-    columns: (auto, auto),
-    gutter: (1em),
-    ..contents
-  )
+  columns: (auto, auto),
+  gutter: 1em,
+  ..contents,
+)
 
-//  颜色变灰
+// 颜色变灰
 #let graytext = text.with(
-  fill: rgb(32, 32, 32),
-  size: 0.9em,
+  fill: rgb(48, 48, 48),
+  size: 0.92em,
 )
 
 // 获奖
 #let award(
   time,
   name,
-  level
+  level,
 ) = {
-  grid(
-    columns: (20%,50%,22.8%),
-    row-gutter: (0.25em),
-    column-gutter: 2em,
-    text(fill:rgb(38, 38, 125),size:1.1em,strong(time)),
-    text(fill:rgb(38, 38, 125),size:1.1em,strong(name)),
-    text(fill:rgb(38, 38, 125),size:1.1em,strong(level)),
+  block(
+    above: 0.2em,
+    below: 0.32em,
+    grid(
+      columns: (time-col, 1fr),
+      row-gutter: 0.14em,
+      column-gutter: col-gap,
+      text(fill: black, size: 0.88em, strong(time)),
+      grid(
+        columns: (1fr, auto),
+        column-gutter: 0.8em,
+        text(fill: black, size: 0.94em, strong(name)),
+        align(right)[#text(fill: muted, size: 0.86em, level)],
+      ),
+    ),
   )
 }
 
 #let item(
   time,
   name,
-  role
+  role,
 ) = {
-  grid(
-    columns: (20%, 60%, 13%),
-    row-gutter: (0.25em),
-    column-gutter: 2em,
-    text(fill:rgb(38, 38, 125),size:1.1em,strong(time)),
-    text(fill:rgb(38, 38, 125),size:1.1em,strong(name)),
-    text(fill:rgb(38, 38, 125),size:1.1em,strong(role))
+  block(
+    above: item-gap,
+    below: 0.7em,
+    grid(
+      columns: (time-col, 1fr),
+      row-gutter: 0.14em,
+      column-gutter: col-gap,
+      text(fill: black, size: 0.88em, strong(time)),
+      grid(
+        columns: (1fr, auto),
+        column-gutter: 0.8em,
+        text(fill: black, size: 0.94em, strong(name)),
+        align(right)[#text(fill: black, size: 0.86em, weight: "semibold", role)],
+      ),
+    ),
+  )
+}
+
+#let research(
+  time,
+  title,
+  meta,
+) = {
+  block(
+    above: item-gap,
+    below: 0.7em,
+    grid(
+      columns: (time-col, 1fr),
+      row-gutter: 0.14em,
+      column-gutter: col-gap,
+      text(fill: black, size: 0.88em, strong(time)),
+      grid(
+        columns: (1fr, auto),
+        column-gutter: 0.8em,
+        text(fill: black, size: 0.94em, strong(title)),
+        align(right)[#text(fill: black, size: 0.86em, weight: "semibold", meta)],
+      ),
+    ),
   )
 }
 
@@ -136,15 +237,19 @@
   time,
   university,
   major,
-  degree
+  degree,
 ) = {
-  grid(
-    columns: (25%,25%,25%,14%),
-    row-gutter: (0.25em),
-    column-gutter: 2em,
-    text(fill:rgb(38, 38, 125),size:1.1em,strong(time)),
-    text(fill:rgb(38, 38, 125),size:1.1em,strong(university)),
-    text(fill:rgb(38, 38, 125),size:1.1em,strong(major)),
-    text(fill:rgb(38, 38, 125),size:1.1em,strong(degree))
+  block(
+    above: 0.1em,
+    below: text-gap,
+    grid(
+      columns: (time-col, 1fr, 16%, 8%),
+      row-gutter: 0.14em,
+      column-gutter: col-gap,
+      text(fill: black, size: 0.88em, strong(time)),
+      text(fill: black, size: 0.94em, strong(university)),
+      text(fill: black, size: 0.9em, major),
+      align(right)[#text(fill: black, size: 0.86em, weight: "semibold", degree)],
+    ),
   )
 }

@@ -1,6 +1,6 @@
-# Chinese Resume in Typst
+# Resume in Typst
 
-使用 Typst 编写的中文简历.
+一个简洁，严肃的typst简历模板，支持中英文。
 
 样式上, 参考了 [liweitianux/resume](https://github.com/liweitianux/resume) 与 [uniquecv](https://github.com/dyinnz/uniquecv). 同时也参考了一部分 [uniquecv-typst](https://github.com/gaoachao/uniquecv-typst) 的写法.
 

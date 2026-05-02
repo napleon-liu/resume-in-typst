@@ -1,94 +1,92 @@
 #import "template.typ": *
 
-// 设置图标, 来源: https://fontawesome.com/icons/
-// 如果要修改图标颜色, 请手动修改 svg 文件中的 fill="rgb(38, 38, 125)" 属性
-#let faAward = icon("fa-award.svg")
-#let faBuildingColumns = icon("fa-building-columns.svg")
-#let faCode = icon("fa-code.svg")
+#let faGraduationCap = icon("static/icons/graduation-cap.svg", size: 0.88em)
+#let faPractice = icon("static/icons/briefcase-business.svg", size: 0.88em)
+#let faWrench = icon("static/icons/flask-conical.svg", size: 0.88em)
+#let faOpenSource = icon("static/icons/git-branch.svg", size: 0.88em)
+#let faCode = icon("static/icons/cpu.svg", size: 0.88em)
+#let themeColor = black
 
-#let faGraduationCap = icon("fa-graduation-cap.svg")
-#let faWrench = icon("fa-wrench.svg")
-#let faPratice = icon("fa-pratice.svg")
-// 主题颜色
-#let themeColor = rgb(38, 38, 125)
-
-#show strong: it=> { 
-//  text(font: ("Times New Roman","SimHei"),it)
-  text(stroke: 0.25pt + themeColor, it.body )
+#show strong: it => {
+  text(weight: "semibold", fill: themeColor, font: ("Songti SC", "Times New Roman"), it.body)
 }
 
-// 设置简历选项与头部
 #show: resume.with(
-  // 字体基准大小
   size: 10pt,
-  // 标题颜色
   themeColor: themeColor,
-  // photograph: image("", width: 60pt),
-  // logo: image("logo.png", width: 75pt)
 )[
   #info(
-    color:  themeColor,
-    name:   "张三",
-    phone:  "1**-****-****",
-    email:  "xxxxx@qq.com",
-    gender: "男", 
-    identity: "中共党员", 
-    location: "北京市海淀区"
+    color: themeColor,
+    name: "候选人姓名",
+    phone: "138-0000-0000",
+    email: "candidate@example.com",
+    github: "github.com/username",
+    location: "目标城市",
+    target_role: "目标岗位 / 方向",
+    target_city: "目标城市",
   )
 ]
-
 
 == #faGraduationCap *教育背景*
 
 #education(
-  "2021年-2025年",
-   "某大学",
-  "专业",
+  "20XX.09 - 20XX.06",
+  "某某大学",
+  "计算机科学与技术",
+  align(right)[硕士],
+)
+
+#education(
+  "20XX.09 - 20XX.06",
+  "某某大学",
+  "软件工程",
   align(right)[学士],
 )
 
-本科期间主修课程:操作系统,计算机网络,计算机组成,数据库系统,编译原理。主干课成绩92分,绩点4.0/4.0,居专业第一。
+== #faPractice *实习经历*
 
+#item([20XX.XX - 20XX.XX], [某科技公司 - 基础架构团队], align(right)[后端 / Infra])
+负责某核心系统的研发与性能优化，参与需求分析、方案设计、开发上线和稳定性治理。
 
++ 设计并落地某模块的重构方案，提升系统可维护性和扩展性，支持后续业务快速迭代。
 
-== #faAward *获奖情况*
++ 优化关键链路的性能瓶颈，通过缓存、异步化和批处理等方式降低平均响应耗时。
 
-#award(
-  [ 2023.5 ],
-  [ 某比赛1 ],
-  align(right)[国际特等奖]
-)
++ 完善监控告警、异常处理和自动化测试，提升线上服务稳定性和问题定位效率。
 
-#award(
-  [ 2023.10 ],
-  [ 某比赛2 ],
-  align(right)[国家级铜奖]
-)
+#item([20XX.XX - 20XX.XX], [某互联网公司 - 平台研发团队], align(right)[后端开发])
+参与平台型服务的后端研发，负责接口设计、数据建模、业务流程实现和线上问题排查。
 
-#award(
-  [ 2024.12 ],
-  [ 奖学金 ],
-  align(right)[国家级]
-)
++ 实现核心业务接口和后台管理能力，支撑业务流程闭环和运营效率提升。
 
++ 参与数据库表结构设计和查询优化，降低复杂场景下的查询耗时和资源消耗。
 
-== #faCode *科研经历*
++ 与产品、前端和测试协作推进版本迭代，完成灰度发布、问题修复和效果复盘。
 
-#item([2023.03 - 2023.08],[某某项目],align(right)[第一作者])
+== #faWrench *科研经历*
 
--- * 负责内容:* 
+#research([20XX.XX], [论文标题 / 课题标题], align(right)[会议 / 期刊｜作者位次])
+围绕系统、算法或应用方向开展研究，可在此补充论文背景、研究问题和核心贡献。
 
--- * 项目成果:* 全国大学生创新训练计划国家级结项
++ 负责文献调研、方法设计、实验实现、结果分析和论文撰写等工作。
 
-== #faPratice *实习经历*
++ 可补充实验指标、对比结果、开源代码、专利或其他科研产出。
 
-#item([2024.08 - 2024.12],[某公司],align(right)[后端开发])
- 
+== #faOpenSource *开源经历*
 
--- * 任务1 * 
+#item([20XX.XX - 至今], [开源项目 / GitHub 仓库], align(right)[Contributor])
+参与开源项目维护或功能开发，可在此描述项目定位、技术栈和个人贡献。
 
--- * 任务2 *
++ 提交功能 PR、修复 Issue 或优化核心模块，提升项目性能、稳定性或易用性。
 
--- * 任务3 * 
++ 完善文档、测试和示例，帮助新用户快速接入并提升社区协作效率。
 
--- * 任务4 * 
+== #faCode *专业技能*
+
+具备扎实的计算机基础和工程实践能力，可根据目标岗位填写真实技能栈。
+
++ *编程语言与工程能力*: Python、C++、Go、Java、Linux、Git、CI/CD 与工程化实践。
+
++ *后端与基础架构*: 分布式系统、数据库、缓存、消息队列、微服务、性能优化与稳定性治理。
+
++ *算法与系统方向*: 数据结构与算法、操作系统、计算机网络、机器学习基础及相关项目经验。
